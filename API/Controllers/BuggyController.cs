@@ -14,8 +14,8 @@ namespace API.Controllers
             _context = context;
         }
 
-        [Authorize]
         [HttpGet("auth")]
+        [Authorize]
         public ActionResult<string> GetSecret()
         {
             return "Secret text";
