@@ -53,11 +53,10 @@ namespace API.Data
 
         public async Task<Message> GetMessage(int id)
         {
-            // return await _context.Messages
-            //     .Include(u => u.Sender)
-            //     .Include(u => u.Recipient)
-            //     .SingleOrDefaultAsync(x => x.Id == id);
-            return await _context.Messages.FindAsync(id);
+            return await _context.Messages
+                .Include(u => u.Sender)
+                .Include(u => u.Recipient)
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         // public async Task<Group> GetMessageGroup(string groupName)
@@ -79,16 +78,12 @@ namespace API.Data
 
             query = messageParams.Container switch
             {
-                // "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username
-                //     && u.RecipientDeleted == false),
-                "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username),
-                // "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username
-                //     && u.SenderDeleted == false),
-                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username),
-                // _ => query.Where(u => u.RecipientUsername ==
-                //     messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
+                "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username
+                    && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username
+                    && u.SenderDeleted == false),
                 _ => query.Where(u => u.RecipientUsername ==
-                    messageParams.Username && u.DateRead == null)
+                    messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
