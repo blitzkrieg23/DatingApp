@@ -20,16 +20,16 @@ export class MemberMessagesComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  // sendMessage() {
-  //   this.loading = true;
-  //   this.messageService.sendMessage(this.username, this.messageContent).then(() => {
-  //     this.messageForm.reset();
-  //   }).finally(() => this.loading = false);
-  // }
   sendMessage() {
-    this.messageService.sendMessage(this.username,this.messageContent).subscribe(message => {
-      this.messages.push(message);
+    this.loading = true;
+    this.messageService.sendMessage(this.username, this.messageContent).then(() => {
       this.messageForm.reset();
-    });
+    }).finally(() => this.loading = false);
   }
+  // sendMessage() {
+  //   this.messageService.sendMessage(this.username,this.messageContent).subscribe(message => {
+  //     this.messages.push(message);
+  //     this.messageForm.reset();
+  //   });
+  // }
 }

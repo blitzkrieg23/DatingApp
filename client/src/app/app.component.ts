@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
+import { PresenceService } from './_services/presence.service';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,17 @@ import { AccountService } from './_services/account.service';
 export class AppComponent  implements OnInit{
   title = 'client'
   users:any;
+  constructor( private accountService:AccountService, private presence:PresenceService){}
   ngOnInit():void{
     //this.getUsers();
     this.setCurrentUser();
   }
   setCurrentUser(){
     const user:User = JSON.parse(localStorage.getItem('user'));
-    this.accountService.setCurrentUser(user);
+    if(user){
+      this.accountService.setCurrentUser(user);
+      this.presence.createHubConnection(user);
+    }
   }
   // getUsers(){
   //   this.http.get<{id:string,name:string}>("https://localhost:5001/api/users").subscribe(response =>{
@@ -26,5 +31,4 @@ export class AppComponent  implements OnInit{
   //     console.log(error);
   //   });
   // }
-  constructor( private accountService:AccountService){}
 }
