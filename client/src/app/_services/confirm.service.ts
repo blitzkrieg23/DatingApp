@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
-//import { ConfirmDialogComponent } from '../modals/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../modals/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,8 @@ export class ConfirmService {
           btnCancelText
         }
       }
-    //this.bsModelRef = this.modalService.show(ConfirmDialogComponent, config);
+    this.bsModelRef = this.modalService.show(ConfirmDialogComponent, config);
+    //this.bsModelRef = this.modalService.show('confirm', config);
     
     return new Observable<boolean>(this.getResult());
   }
